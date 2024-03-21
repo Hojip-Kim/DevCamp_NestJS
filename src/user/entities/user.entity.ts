@@ -1,12 +1,16 @@
 import { BaseEntity } from 'src/common';
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  OneToMany,
+  OneToOne,
+  Relation,
+} from 'typeorm';
 import { UserRole } from './user-role.entity';
+import { AccessLog, AccessToken, RefreshToken } from 'src/auth/entities';
 
 @Entity()
 export class User extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: string;
-
   @Column({ nullable: true })
   userName: string;
 
@@ -18,6 +22,17 @@ export class User extends BaseEntity {
 
   @OneToOne(() => UserRole, (role) => role.user)
   role: UserRole;
+
+  @OneToMany(() => AccessLog, (accessLog) => accessLog.user)
+  accessLog : Relation<AccessLog[]>
+
+  @OneToMany(() => AccessToken, (token) => token.user)
+  accessToken : Relation<AccessToken[]>
+
+  @OneToMany(() => RefreshToken, (token) => token.user)
+  refreshToken : Relation<RefreshToken[]>
+
+  
 
   // @OneToMany()
   // accessToken : accessToken[]
