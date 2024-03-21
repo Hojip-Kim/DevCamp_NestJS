@@ -16,15 +16,13 @@ export enum Role {
 
 @Entity()
 export class UserRole extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: string;
 
   @Column({
     type: 'varchar',
   })
   role: Role;
 
-  @OneToOne(() => User, (user) => user.role, { eager: true })
+  @OneToOne(() => User, { eager: true })
   @JoinColumn({ name: 'userId', referencedColumnName: 'id' })
   user: User;
 }
