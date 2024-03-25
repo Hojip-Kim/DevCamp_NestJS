@@ -41,25 +41,7 @@
 
 ---
 
-## **📌Payment Module - Directory Structure**
-
-    📦DevCamp_NestJS
-     ┣ 📂controller
-     ┃ ┣ 📜payments.controller.ts
-     ┃ 📂service
-     ┃ ┣ 📜payments.service.ts
-     ┃ 📂entities
-     ┃ ┣ 📜payments.entity.ts
-     ┃ 📂dto
-     ┃ ┣ 📜payment-request.dto.ts
-     ┃ ┣ 📜payment-response.dto.ts
-     ┃ 📂repositories
-     ┃ ┗ 📜payment.repository.ts
-     ┃ 📜 payment.moduel.ts
-
-## **DB - Diagram**
-     
-<center><img width="600" alt="스크린샷 2024-03-26 오전 7 17 40" src="https://github.com/Hojip-Kim/DevCamp_NestJS/assets/101489057/2537ddc1-f53a-4616-8709-d28c105ee7e8"></center>
+## **📌Payment Module
 
 ## **Code Structure**
 
@@ -131,3 +113,9 @@
   - `status`: 배송 상태
 - **메소드:**
   - `updateShippingStatus(status: string)`: 배송 상태 업데이트
+
+---
+
+## **DB - Diagram**
+     
+<center><img width="600" alt="스크린샷 2024-03-26 오전 7 17 40" src="https://github.com/Hojip-Kim/DevCamp_NestJS/assets/101489057/2537ddc1-f53a-4616-8709-d28c105ee7e8"></center>
