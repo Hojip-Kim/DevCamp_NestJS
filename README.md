@@ -1,73 +1,121 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+## **📌 DevCamp - BackEnd(TypeScript + NestJS)**
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+### 1주차 - NestJS 기반 회원가입&로그인 구현
+- 회원가입
+- 로그인
+- 배포
+### 2주차 - 결제
+- 쿠폰
+- 포인트
+- PG사 연결
+- 배포
+### 사용 기술: TypeScript | NestJS | PostgreSQL
 
-## Description
+---
+## **📌 Directory Structure**
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+    📦DevCamp_NestJS
+     ┃  ┣ 📂src
+     ┃  ┃ ┣ 📂auth
+     ┃  ┃ ┣ 📂common
+     ┃  ┃ ┣ 📂decorators
+     ┃  ┃ ┣ 📂exception
+     ┃  ┃ ┣ 📂user
+     ┃  ┃ ┣ 📜app.controller.ts
+     ┃  ┃ ┣ 📜app.module.ts
+     ┃  ┃ ┣ 📜app.service.ts
+     ┃  ┃ ┗ 📜main.ts
+     ┃  ┣ 📂test
+     ┃  ┃ ┣ 📜app.e2e-spec.ts
+     ┃  ┃ ┗ 📜jest-e2e.json
+     ┣ 📜.eslintrc.js
+     ┣ 📜.gitignore
+     ┣ 📜.prettierrc
+     ┣ 📜README.md
+     ┣ 📜nest-cli.json
+     ┣ 📜package-lock.json
+     ┣ 📜package.json
+     ┣ 📜tsconfig.build.json
+     ┗ 📜tsconfig.json
 
-## Installation
+---
 
-```bash
-$ npm install
-```
+## **📌Payment Module
 
-## Running the app
+## **Code Structure**
 
-```bash
-# development
-$ npm run start
+### Product (제품)
+- **속성:**
+  - `id`: 제품 ID
+  - `name`: 제품 이름
+  - `price`: 제품 가격
+  - `description`: 제품 설명
+  - `stock`: 제품 재고
 
-# watch mode
-$ npm run start:dev
+### Order (주문)
+- **속성:**
+  - `id`: 주문 ID
+  - `customerId`: 주문 고객 ID
+  - `status`: 주문의 현재상태
+  - `orderDate`: 주문 날짜
+  - `totalAmount`: 주문 총액
+  - `items`: 주문 항목 리스트 (`Order-Item[]`)
+  - `shippingInfo`: 배송 정보 (`Shipping-Info`)
+  - `appliedCoupons`: 적용된 쿠폰 리스트 (`Issued Coupon[]`)
+- **메소드:**
+  - `calculateTotalAmount()`: 적용된 쿠폰, 포인트를 기반으로 총액 계산
+  - `applyCoupon(couponId: number)`: 쿠폰 주문에 적용
+  - `addOrderItem(productId: number, quantity: number)`: 주문항목 추가
+  - `removeOrderItem(orderItemId: number)`: 주문항목 제거
 
-# production mode
-$ npm run start:prod
-```
+### Order-Item (주문 항목)
+- **속성:**
+  - `id`: 주문 항목 식별자
+  - `orderId`: 주문 ID
+  - `productId`: 제품 ID
+  - `quantity`: 제품 수량
+  - `price`: 제품 가격
 
-## Test
+### Coupon (쿠폰)
+- **속성:**
+  - `id`: 쿠폰 ID
+  - `type`: 쿠폰 유형
+  - `discountAmount`: 할인 금액
+  - `expiryDate`: 쿠폰 만료일
+- **메소드:**
+  - `validateCoupon()`: 쿠폰 유효성 검사
 
-```bash
-# unit tests
-$ npm run test
+### Issued Coupon (발행된 쿠폰)
+- **속성:**
+  - `id`: Issued 쿠폰 ID
+  - `couponId`: 쿠폰 ID
+  - `userId`: 사용자 ID
+  - `isUsed`: 쿠폰 사용여부
+  - `usedOnOrderId`: 쿠폰이 사용된 Order ID
+- **메소드:**
+  - `useCoupon(orderId: number)`: 주문에 쿠폰 사용
 
-# e2e tests
-$ npm run test:e2e
+### Point-Log (포인트 로그)
+- **속성:**
+  - `id`: 포인트 로그 ID
+  - `userId`: 사용자 ID
+  - `changeAmount`: 포인트 변동되는 양
+  - `reason`: 포인트 변동된 이유
+  - `changeDate`: 포인트 변동 날짜
 
-# test coverage
-$ npm run test:cov
-```
+### Shipping-Info (배송 정보)
+- **속성:**
+  - `id`: 배송 정보 ID
+  - `orderId`: 주문 ID
+  - `recipientName`: 수령인 이름
+  - `address`: 배송 주소
+  - `status`: 배송 상태
+- **메소드:**
+  - `updateShippingStatus(status: string)`: 배송 상태 업데이트
 
-## Support
+---
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+## **DB - Diagram**
+     
+<center><img width="600" alt="스크린샷 2024-03-26 오전 7 17 40" src="https://github.com/Hojip-Kim/DevCamp_NestJS/assets/101489057/2537ddc1-f53a-4616-8709-d28c105ee7e8"></center>
