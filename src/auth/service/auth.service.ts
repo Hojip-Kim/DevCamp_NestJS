@@ -1,4 +1,4 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable, Logger } from '@nestjs/common';
 import * as argon2 from 'argon2';
 import { LoginResponseDto } from '../dto/login-response.dto';
 import { UserService } from 'src/user/service/user.service';
@@ -19,6 +19,7 @@ import { RefreshToken } from '../entities';
 
 @Injectable()
 export class AuthService {
+  private readonly logger = new Logger(AuthService.name);
   constructor(
     private readonly refreshTokenRepository: RefreshTokenRepository,
     private readonly accessTokenRepository: AccessTokenRepository,
