@@ -1,13 +1,9 @@
 import { BaseEntity } from 'src/common';
-import {
-  Column,
-  Entity,
-  OneToMany,
-  OneToOne,
-  Relation,
-} from 'typeorm';
+import { Column, Entity, OneToMany, OneToOne, Relation } from 'typeorm';
 import { UserRole } from './user-role.entity';
 import { AccessLog, AccessToken, RefreshToken } from 'src/auth/entities';
+import { Order } from 'src/payment/entities/order.entity';
+import { Point } from 'src/payment/entities/point.entity';
 
 @Entity()
 export class User extends BaseEntity {
@@ -24,15 +20,19 @@ export class User extends BaseEntity {
   role: UserRole;
 
   @OneToMany(() => AccessLog, (accessLog) => accessLog.user)
-  accessLog : Relation<AccessLog[]>
+  accessLog: Relation<AccessLog[]>;
 
   @OneToMany(() => AccessToken, (token) => token.user)
-  accessToken : Relation<AccessToken[]>
+  accessToken: Relation<AccessToken[]>;
 
   @OneToMany(() => RefreshToken, (token) => token.user)
-  refreshToken : Relation<RefreshToken[]>
+  refreshToken: Relation<RefreshToken[]>;
 
-  
+  @OneToMany(() => Order, (order) => order.user)
+  orders: Relation<Order[]>;
+
+  @OneToOne(() => Point, (point) => point.user)
+  point: Relation<Point>;
 
   // @OneToMany()
   // accessToken : accessToken[]
