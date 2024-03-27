@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity } from 'typeorm';
+import { BaseEntity } from 'src/common';
+import { Column, Entity } from 'typeorm';
 
 export type productType = 'available' | 'not-available';
 

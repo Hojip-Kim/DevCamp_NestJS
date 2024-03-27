@@ -1,5 +1,6 @@
-import { BaseEntity, Column, Entity, ManyToOne, Relation } from 'typeorm';
+import {  Column, Entity, ManyToOne, Relation } from 'typeorm';
 import { Point } from './point.entity';
+import { BaseEntity } from 'src/common';
 
 export type PointLogType = 'earn' | 'spend';
 
