@@ -1,6 +1,5 @@
 import { User } from 'src/user/entities';
 import {
-  BaseEntity,
   Column,
   Entity,
   JoinColumn,
@@ -9,6 +8,7 @@ import {
   Relation,
 } from 'typeorm';
 import { PointLog } from './point-log.entity';
+import { BaseEntity } from 'src/common';
 
 @Entity()
 export class Point extends BaseEntity {
@@ -24,5 +24,9 @@ export class Point extends BaseEntity {
 
   use(amountToUse: number) {
     this.availableAmount -= amountToUse;
+  }
+
+  add(amountToAdd: number){
+    this.availableAmount += amountToAdd;
   }
 }
