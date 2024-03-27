@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
 import { EntityManager, Repository } from 'typeorm';
-import { User } from 'src/user/entities';
 import { ShippingInfo } from '../entities/shipping-info.entity';
 
 @Injectable()
@@ -15,4 +14,10 @@ export class ShippingInfoRepository extends Repository<ShippingInfo> {
     super(repo.target, repo.manager, repo.queryRunner);
   }
 
+  async createShippingInfo(shippingAddress: string): Promise<ShippingInfo> {
+    const shippingInfo = new ShippingInfo();
+    shippingInfo.address = shippingAddress;
+    shippingInfo.status = 'ordered';
+    return await this.entityManager.save(ShippingInfo, shippingInfo);
+  }
 }
