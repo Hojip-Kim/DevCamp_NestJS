@@ -1,5 +1,4 @@
 import {
-  BaseEntity,
   Column,
   Entity,
   OneToMany,
@@ -7,6 +6,7 @@ import {
   Relation,
 } from 'typeorm';
 import { IssuedCoupon } from './issued-coupon.entity';
+import { BaseEntity } from 'src/common';
 
 export type CouponType = 'percent' | 'fixed';
 
