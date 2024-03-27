@@ -1,25 +1,24 @@
-import { User } from 'src/user/entities';
 import {
-  BaseEntity,
   Column,
   Entity,
   JoinColumn,
   ManyToOne,
   OneToMany,
   OneToOne,
-  PrimaryGeneratedColumn,
   Relation,
 } from 'typeorm';
+import { User } from 'src/user/entities';
 import { OrderItem } from './order-item.entity';
 import { IssuedCoupon } from './issued-coupon.entity';
 import { ShippingInfo } from './shipping-info.entity';
+import { BaseEntity } from 'src/common';
 
 export type OrderStatus = 'started' | 'paid' | 'refunded';
 
 @Entity()
 export class Order extends BaseEntity {
-  @Column()
   @ManyToOne(() => User, (user) => user.orders)
+  @JoinColumn()
   user: User;
 
   @Column()
