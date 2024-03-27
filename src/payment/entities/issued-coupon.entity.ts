@@ -1,5 +1,4 @@
 import {
-  BaseEntity,
   Column,
   Entity,
   JoinColumn,
@@ -10,6 +9,7 @@ import {
 import { Order } from './order.entity';
 import { User } from 'src/user/entities';
 import { Coupon } from './coupon.entity';
+import { BaseEntity } from 'src/common';
 
 @Entity()
 export class IssuedCoupon extends BaseEntity {
@@ -18,7 +18,7 @@ export class IssuedCoupon extends BaseEntity {
   user: Relation<User>;
 
   @Column()
-  couponID: string; // 쿠폰 고유 식별번호
+  issuedCouponID: string; // 쿠폰 고유 식별번호
 
   @ManyToOne(() => Coupon)
   @JoinColumn()
@@ -59,6 +59,6 @@ export class IssuedCoupon extends BaseEntity {
           .toUpperCase(),
       )
       .join('');
-    this.couponID = dateStr + randomStr;
+    this.issuedCouponID = dateStr + randomStr;
   }
 }
