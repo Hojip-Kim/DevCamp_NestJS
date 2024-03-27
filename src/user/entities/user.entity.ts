@@ -2,8 +2,7 @@ import { BaseEntity } from 'src/common';
 import { Column, Entity, OneToMany, OneToOne, Relation } from 'typeorm';
 import { UserRole } from './user-role.entity';
 import { AccessLog, AccessToken, RefreshToken } from 'src/auth/entities';
-import { Order } from 'src/payment/entities/order.entity';
-import { Point } from 'src/payment/entities/point.entity';
+import { Order, Point } from 'src/payment/entities';
 
 @Entity()
 export class User extends BaseEntity {
