@@ -9,10 +9,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { User } from './user/entities/user.entity';
 import { UserRole } from './user/entities/user-role.entity';
+import { Order, OrderItem } from './payment/entities';
+import { PaymentModule } from './payment/payment.module';
 
 @Module({
   imports: [
-    AuthModule,
     ConfigModule.forRoot({
       envFilePath: `.env.${process.env.NODE_ENV}`,
       isGlobal: true,
@@ -24,7 +25,7 @@ import { UserRole } from './user/entities/user-role.entity';
         type: 'postgres',
         host: configService.get<string>('DB_HOST'),
         port: configService.get<number>('DB_PORT'),
-        entities: [User, UserRole],
+        entities: [User, UserRole, Order, OrderItem],
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_DATABASE'),
@@ -33,6 +34,8 @@ import { UserRole } from './user/entities/user-role.entity';
       }),
     }),
     UserModule,
+    AuthModule,
+    PaymentModule,
   ],
   controllers: [AppController],
   providers: [
