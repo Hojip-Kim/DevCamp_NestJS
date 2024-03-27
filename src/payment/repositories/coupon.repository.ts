@@ -13,12 +13,12 @@ export class CouponRepository extends Repository<Coupon> {
   ) {
     super(repo.target, repo.manager, repo.queryRunner);
   }
-
+  //
   async createCoupon(
     couponType: CouponType,
-    value: number,
     name: string,
-    description: string,
+    value: number,
+    description?: string,
     maxIssue?: number,
   ): Promise<Coupon> {
     const newCoupon = new Coupon();
