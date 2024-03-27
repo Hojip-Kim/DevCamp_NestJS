@@ -7,10 +7,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { UserRole } from './entities/user-role.entity';
 import { AuthModule } from 'src/auth/auth.module';
+import { PaymentModule } from 'src/payment/payment.module';
 
 @Module({
   imports: [
     forwardRef(() => AuthModule),
+    forwardRef(() => PaymentModule),
     TypeOrmModule.forFeature([User, UserRole]),
   ],
   controllers: [UserController],
