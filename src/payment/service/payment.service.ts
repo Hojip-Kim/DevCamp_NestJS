@@ -27,12 +27,11 @@ export class PaymentService {
   private readonly tossUrl = 'https://api.tosspayments.com/v1/payments';
   private readonly secretKey = this.configService.get<string>('TOSS_SECRET');
 
-  async tossPayment(tossDto: TossDto) {
+  async tossPayment(tossDto: TossDto): Promise<TossDto> {
     try {
       const idempotency = uuid_v4();
 
       const { paymentKey, orderId, amount } = tossDto;
-
 
       const response = await axios.post(
         `${this.tossUrl}/${paymentKey}`,
