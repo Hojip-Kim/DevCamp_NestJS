@@ -48,14 +48,13 @@ export class PaymentController {
    포인트 및 쿠폰 사용처리 완료됨.
    */
   @Get('/success')
-  async completeOrder(@Query() query: TossDto): Promise<any> {
-    await this.paymentService.tossPayment(query);
-    return { response: '완료' };
+  async completeOrder(@Query() query: TossDto): Promise<TossDto> {
+    const responseTossDto = await this.paymentService.tossPayment(query);
+    return responseTossDto;
   }
 
   @Post('/fail')
   failOrder() {
     return { response: '실패' };
   }
-
 }
