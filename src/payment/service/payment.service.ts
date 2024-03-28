@@ -1,9 +1,7 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { IssuedCouponRepository } from '../repositories/issued-coupon.repository';
 import { OrderRepository } from '../repositories/order.repository';
-import {
-  ShippingInfoRepository,
-} from '../repositories';
+import { ShippingInfoRepository } from '../repositories';
 import { Order, OrderItem } from '../entities';
 import { ProductService } from './product.service';
 import { UserRepository } from 'src/user/repositories/user.repository';
@@ -11,6 +9,10 @@ import { User } from 'src/user/entities';
 import { BusinessException } from 'src/exception/BusinessException';
 import { CreateOrderRequestDto } from '../dto/createOrder-Request.dto';
 import { Transactional } from 'typeorm-transactional';
+import { TossDto } from '../dto/tossPayment.dto';
+import { ConfigService } from '@nestjs/config';
+import axios from 'axios';
+import { v4 as uuid_v4 } from 'uuid';
 
 @Injectable()
 export class PaymentService {
@@ -20,8 +22,83 @@ export class PaymentService {
     private readonly orderRepository: OrderRepository,
     private readonly shippingInfoRepository: ShippingInfoRepository,
     private readonly productService: ProductService,
+    private readonly configService: ConfigService,
   ) {}
+  private readonly tossUrl = 'https://api.tosspayments.com/v1/payments';
+  private readonly secretKey = this.configService.get<string>('TOSS_SECRET');
 
+  async tossPayment(tossDto: TossDto) {
+    try {
+      const idempotency = uuid_v4();
+
+      const { paymentKey, orderId, amount } = tossDto;
+
+
+      const response = await axios.post(
+        `${this.tossUrl}/${paymentKey}`,
+        {
+          orderId,
+          amount,
+        },
+        {
+          headers: {
+            Authorization: `Basic ${Buffer.from(`${this.secretKey}:`).toString('base64')}`,
+            'Content-Type': 'application/json',
+            'Idempotency-Key': `${idempotency}`,
+          },
+        },
+      );
+
+      const findOrder = await this.orderRepository.findOneBy({
+        orderNo: orderId,
+      });
+
+      if (!findOrder) {
+        throw new BusinessException(
+          'payment',
+          'Not-found-order',
+          'Not-found-order',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
+      if (!response) {
+        throw new BusinessException(
+          'payment',
+          'Toss-payments-error',
+          'Toss-payments-error',
+          HttpStatus.INTERNAL_SERVER_ERROR,
+        );
+      }
+
+      if (response.data.orderId !== findOrder.orderNo) {
+        throw new BusinessException(
+          'payment',
+          'Order-Miss-Match',
+          'Order-Miss-Match',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      if (response.data.amount !== findOrder.amount) {
+        throw new BusinessException(
+          'payment',
+          'Amount-Miss-Match',
+          'Amount-Miss-Match',
+          HttpStatus.BAD_GATEWAY,
+        );
+      }
+
+      const order = await this.completeOrder(orderId);
+
+      return {
+        paymentKey: paymentKey,
+        orderId: order.orderNo,
+        amount: order.amount,
+      };
+    } catch (error) {
+      console.error(error.response ? error.response.data : error.message);
+    }
+  }
   /*
   주문하고자하는 상품의 가격의 합을 통해 쿠폰, 포인트 사용우무에따라 할인을 적용,
   최종 주문 가격을 통해 Order Entity를 생성합니다.
@@ -56,8 +133,8 @@ export class PaymentService {
   결제금액이 'paid', 즉 결제완료되면 사용되는 메소드입니다.
   */
   @Transactional()
-  async completeOrder(orderId: string, userId: string): Promise<Order> {
-    return await this.orderRepository.completeOrder(orderId, userId);
+  async completeOrder(orderId: string): Promise<Order> {
+    return await this.orderRepository.completeOrder(orderId);
   }
 
   /*
@@ -218,5 +295,4 @@ export class PaymentService {
     }
     return 0;
   }
-
 }
