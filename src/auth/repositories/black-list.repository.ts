@@ -49,8 +49,3 @@ export class BlackListRepository extends Repository<BlackListToken> {
     return true;
   }
 }
-/*
-await Promise.all([
-      this.jwtService.verifyAsync(accessToken, {
-        secret: this.configService.get<string>('JWT_SECRET'),
-      }),*/
