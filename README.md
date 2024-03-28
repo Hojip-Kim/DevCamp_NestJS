@@ -1,17 +1,4 @@
-## **📌 DevCamp - BackEnd(TypeScript + NestJS)**
-
-
-### 1주차 - NestJS 기반 회원가입&로그인 구현
-- 회원가입
-- 로그인
-- 배포
-### 2주차 - 결제
-- 쿠폰
-- 포인트
-- PG사 연결
-- 배포
-### 사용 기술: TypeScript | NestJS | PostgreSQL
-
+# DevCamp - BackEnd(TypeScript + NestJS)
 ---
 ## **📌 Directory Structure**
 
@@ -22,6 +9,7 @@
      ┃  ┃ ┣ 📂decorators
      ┃  ┃ ┣ 📂exception
      ┃  ┃ ┣ 📂user
+     ┃  ┃ ┣ 📂payment
      ┃  ┃ ┣ 📜app.controller.ts
      ┃  ┃ ┣ 📜app.module.ts
      ┃  ┃ ┣ 📜app.service.ts
@@ -41,7 +29,7 @@
 
 ---
 
-## **📌Payment Module
+## **📌Payment Module**
 
 ## **Code Structure**
 
@@ -116,6 +104,5 @@
 
 ---
 
-## **DB - Diagram**
-     
-<center><img width="600" alt="스크린샷 2024-03-26 오전 7 17 40" src="https://github.com/Hojip-Kim/DevCamp_NestJS/assets/101489057/2537ddc1-f53a-4616-8709-d28c105ee7e8"></center>
+## 결제 결과
+<img width="880" alt="스크린샷 2024-03-29 오전 1 51 56" src="https://github.com/Hojip-Kim/DevCamp_NestJS/assets/101489057/de80c5a2-a68f-4da1-a233-b86d551c4a07">
