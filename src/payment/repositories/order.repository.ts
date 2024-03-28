@@ -38,13 +38,10 @@ export class OrderRepository extends Repository<Order> {
     return this.save(order);
   }
 
-  async completeOrder(userId: string, orderId: string): Promise<Order> {
+  async completeOrder(orderId: string): Promise<Order> {
     const order = await this.findOne({
       where: {
         id: orderId,
-        user: {
-          id: userId,
-        },
       },
     });
     if (!order) {
